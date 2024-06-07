@@ -21,10 +21,6 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - uses: actions/checkout@v3
 
@@ -45,18 +41,10 @@ jobs:
         run: npm install -g @angular/cli@15.2.10
 
       - name: Build da aplicação Angular
-        run: ng build --output-path=dist/production
-
-      - name: Carregar artefatos de produção
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist-production  # Nome do artefato
-          path: dist/production  # Caminho para a pasta de build de produção
+        run: ng build --output-path=dist/production --base-href /nome-do-repo/
 
       - name: Deploy para GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          source: dist/production  # Fonte do artefato carregado
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fail-on-errors: true  # Opcional: Falhar o workflow em caso de erros no deploy
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist/production
