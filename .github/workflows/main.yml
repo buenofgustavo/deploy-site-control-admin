@@ -41,9 +41,11 @@ jobs:
             yarn install
           fi
 
-      - name: Build Angular application
-        run: ng build --output-path=production
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
 
+      - name: Build Angular application
+        run: ng build --output-path=dist/production
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v3
@@ -55,13 +57,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist  # Artifact name
-          path: dist  # Path to the production build folder
+          path: dist/production  # Path to the production build folder
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
         with:
           # Replace with your GitHub Pages branch if different (e.g., gh-pages)
-          source: ${{ github.workspace }}/dist  # Source of uploaded artifact
+          source: ${{ github.workspace }}/dist/production  # Source of uploaded artifact
           token: ${{ secrets.GITHUB_TOKEN }}
           fail-on-errors: true  # Optional: Fail workflow on deployment errors
