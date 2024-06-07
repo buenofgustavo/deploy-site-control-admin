@@ -1,14 +1,14 @@
 name: Deploy Angular App to GitHub Pages
 
 on:
-  # Runs on pushes targeting the main branch
+  # Executa em pushes direcionados à branch main
   push:
     branches: [ main ]
 
-  # Allows manual deployment from Actions tab
+  # Permite deploy manual a partir da aba Actions
   workflow_dispatch:
 
-# Permissions for deployment and workflow execution
+# Permissões para deploy e execução do workflow
 permissions:
   contents: read
   pages: write
@@ -28,12 +28,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.12.0  # Using the specified Node.js version
+          node-version: 18.12.0  # Usando a versão especificada do Node.js
 
-      - name: Install dependencies (npm or yarn)
+      - name: Instalar dependências (npm ou yarn)
         run: |
           if [ -f "package-lock.json" ]; then
             npm ci
@@ -41,29 +41,22 @@ jobs:
             yarn install
           fi
 
-      - name: Install Angular CLI
+      - name: Instalar Angular CLI
         run: npm install -g @angular/cli@15.2.10
 
-      - name: Build Angular application
+      - name: Build da aplicação Angular
         run: ng build --output-path=dist/production
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v3
-        with:
-          # Replace with your GitHub Pages branch if different (e.g., gh-pages)
-          pages-branch: main  
-
-      - name: Upload production artifacts
+      - name: Carregar artefatos de produção
         uses: actions/upload-artifact@v3
         with:
-          name: dist  # Artifact name
-          path: dist/production  # Path to the production build folder
+          name: dist-production  # Nome do artefato
+          path: dist/production  # Caminho para a pasta de build de produção
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy para GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
         with:
-          # Replace with your GitHub Pages branch if different (e.g., gh-pages)
-          source: ${{ github.workspace }}/dist/production  # Source of uploaded artifact
+          source: dist/production  # Fonte do artefato carregado
           token: ${{ secrets.GITHUB_TOKEN }}
-          fail-on-errors: true  # Optional: Fail workflow on deployment errors
+          fail-on-errors: true  # Opcional: Falhar o workflow em caso de erros no deploy
