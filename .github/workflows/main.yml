@@ -31,7 +31,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16  # Consider using the recommended LTS version
+          node-version: 18.12.0  # Using the specified Node.js version
 
       - name: Install dependencies (npm or yarn)
         run: |
@@ -42,7 +42,7 @@ jobs:
           fi
 
       - name: Install Angular CLI
-        run: npm install -g @angular/cli
+        run: npm install -g @angular/cli@15.2.10
 
       - name: Build Angular application
         run: ng build --output-path=dist/production
