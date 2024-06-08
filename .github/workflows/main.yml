@@ -41,7 +41,7 @@ jobs:
         run: npm install -g @angular/cli@15.2.10
 
       - name: Build da aplicação Angular
-        run: ng build --output-path=production --base-href /deploy-site-control-admin/
+        run: ng build --output-path=production --base-href /deploy-site-sistema-chamados/
 
       - name: Deploy para GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
