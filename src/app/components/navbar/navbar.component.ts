@@ -51,7 +51,6 @@ export class NavbarComponent {
         //  {title: 'Monitores',icon: '',link: '/gestao-monitor-ti'},
         //  {title: 'Outros',icon: '',link: '/gestao-outros-ti'},
         //]
-      },
       ]
     },
     
